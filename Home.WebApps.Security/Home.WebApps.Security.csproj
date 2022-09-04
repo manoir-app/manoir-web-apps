@@ -48,8 +48,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="ManoirApp.Home.Common" Version="1.1.1" />
-	  <PackageReference Include="ManoirApp.Home.Common.Graph" Version="1.1.1" />
+	  <PackageReference Include="ManoirApp.Home.Common" Version="1.1.2" />
+	  <PackageReference Include="ManoirApp.Home.Common.Graph" Version="1.1.2" />
 	  <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.5.3">
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

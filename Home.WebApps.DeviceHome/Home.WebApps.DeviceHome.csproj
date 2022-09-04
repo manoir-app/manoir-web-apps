@@ -200,8 +200,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ManoirApp.Home.Common" Version="1.1.1" />
-    <PackageReference Include="ManoirApp.Home.Common.Graph" Version="1.1.1" />
+    <PackageReference Include="ManoirApp.Home.Common" Version="1.1.2" />
+    <PackageReference Include="ManoirApp.Home.Common.Graph" Version="1.1.2" />
   </ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
