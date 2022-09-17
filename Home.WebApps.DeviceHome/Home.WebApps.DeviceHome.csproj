@@ -204,8 +204,4 @@
     <PackageReference Include="ManoirApp.Home.Common.Graph" Version="1.1.1" />
   </ItemGroup>
 
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="if $(ConfigurationName) == Release (&#xD;&#xA;cd $(TargetDir)&#xD;&#xA;powershell -File .\build-docker.ps1&#xD;&#xA;)" />
-	</Target>
-
 </Project>

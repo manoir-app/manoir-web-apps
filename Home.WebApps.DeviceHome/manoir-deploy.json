@@ -1,0 +1,6 @@
+{
+  "Kind": "WebApps",
+  "Name": "Device Home",
+  "ImageName": "webapps-devicehome",
+  "DockerFile": "DockerFile.Release"
+}
