@@ -12,7 +12,9 @@ declare namespace Manoir {
 }
 
 declare namespace Manoir.Common {
-    export class ManoirAppPage {
+    
+
+    export abstract class ManoirAppPage {
         checkLogin(autoRedirect: boolean): boolean;
     }
 }

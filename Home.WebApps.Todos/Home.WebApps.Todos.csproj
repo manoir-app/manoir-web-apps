@@ -7,6 +7,7 @@
   <ItemGroup>
     <Content Remove="wwwroot\TodoApp.ts" />
     <Content Remove="wwwroot\typings\jquery.d.ts" />
+    <Content Remove="wwwroot\typings\manoirApp.d.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +27,7 @@
     <TypeScriptCompile Include="wwwroot\typings\angular-sanitize.d.ts" />
     <TypeScriptCompile Include="wwwroot\typings\angular.d.ts" />
     <TypeScriptCompile Include="wwwroot\typings\jquery.d.ts" />
+    <TypeScriptCompile Include="wwwroot\typings\manoirApp.d.ts" />
   </ItemGroup>
 
   <ItemGroup>

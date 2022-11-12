@@ -8,11 +8,12 @@ module Manoir.WelcomeApp {
         Loading: boolean;
     }
 
-    export class DefaultPage {
+    export class DefaultPage extends Manoir.Common.ManoirAppPage {
         scope: IDefaultPageScope;
         $timeout: ng.ITimeoutService;
         http: any;
         constructor($scope: IDefaultPageScope, $http: any, $timeout: ng.ITimeoutService) {
+            super();
             this.scope = $scope;
             this.http = $http;
             this.$timeout = $timeout;
@@ -26,17 +27,6 @@ module Manoir.WelcomeApp {
         public RefreshData(): void {
             let self = this;
             let sc = self.scope;
-
-            //let url = "api/presence?ts=" + (new Date).getTime();
-
-            //fetch(url)
-            //    .then(res => res.json())
-            //    .then(json => {
-            //        sc.currentPresence = json;
-            //        self.updateUsersFromPresence(sc.allUsers, sc.currentPresence);
-            //        sc.Loading = false;
-            //        sc.$applyAsync(function () { });
-            //    });
         }
     }
 }
