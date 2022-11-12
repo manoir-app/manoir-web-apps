@@ -12,15 +12,9 @@ namespace Home.WebApps.Security
 {
     public class Program
     {
-        public static string _deviceId = "";
 
         public static void Main(string[] args)
         {
-            _deviceId = Environment.GetEnvironmentVariable("DEVICEID_TO_SIMULATE");
-            // temporaire, le temps de faire l'authentification
-            // des devices "internes"
-
-
             string cn = Environment.GetEnvironmentVariable("APPCONFIG_CNSTRING");
 
             if (cn != null)

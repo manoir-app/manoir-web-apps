@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading;
+using Newtonsoft.Json;
 
 namespace Home.WebApps.Security.Controllers
 {
@@ -46,13 +47,36 @@ namespace Home.WebApps.Security.Controllers
             public bool PrivacyModeActivated { get; set; }
         }
 
+
+        private class AuthenticationCookie
+        {
+            public string DeviceId { get; set; }
+        }
+
+        private string GetDeviceId()
+        {
+            if (Request.Cookies.TryGetValue("ManoirDeviceAuth", out string cookie))
+            {
+                var tmp = JsonConvert.DeserializeObject<AuthenticationCookie>(cookie);
+                if (tmp != null && !string.IsNullOrEmpty(tmp.DeviceId))
+                    return tmp.DeviceId;
+
+            }
+
+            return null;
+        }
+
         [Route("presence"), HttpGet]
         public Presence GetPresence()
         {
             Presence presence = new Presence();
             List<User> lst = new List<User>();
-            using (var cli = new MainApiDeviceWebClient(Program._deviceId))
-            //using (var cli = new MainApiDeviceWebClient(Request.Headers["manoir-device-id"].FirstOrDefault()))
+
+            string devId = GetDeviceId();
+            if (devId == null)
+                return null;
+
+            using (var cli = new MainApiDeviceWebClient(devId))
             {
                 lst = cli.DownloadData<List<User>>("v1.0/users/presence/mesh/local/all");
                 presence.PrivacyModeActivated = cli.DownloadData<bool>("v1.0/system/mesh/local/privacymode/isenabled");
@@ -73,7 +97,11 @@ namespace Home.WebApps.Security.Controllers
         public List<User> GetAllUsers()
         {
             List<User> lst = new List<User>();
-            using (var cli = new MainApiDeviceWebClient(Request.Headers["manoir-device-id"].FirstOrDefault()))
+            string devId = GetDeviceId();
+            if (devId == null)
+                return null;
+
+            using (var cli = new MainApiDeviceWebClient(devId))
             {
                 lst = cli.DownloadData<List<User>>("v1.0/users/all");
             }
@@ -94,7 +122,11 @@ namespace Home.WebApps.Security.Controllers
         [Route("presence/add/{userId}"), HttpGet]
         public Presence AddUser(string userId)
         {
-            using (var cli = new MainApiDeviceWebClient(Request.Headers["manoir-device-id"].FirstOrDefault()))
+            string devId = GetDeviceId();
+            if (devId == null)
+                return null;
+
+            using (var cli = new MainApiDeviceWebClient(devId))
             {
                 bool b = cli.DownloadData<bool>($"v1.0/users/presence/{userId}/forcelocation/3552050b-e59a-4cf6-b67c-5503d7c2ba40/in");
             }
@@ -105,7 +137,11 @@ namespace Home.WebApps.Security.Controllers
         [Route("presence/remove/{userId}"), HttpGet]
         public Presence RemoveUser(string userId)
         {
-            using (var cli = new MainApiDeviceWebClient(Request.Headers["manoir-device-id"].FirstOrDefault()))
+            string devId = GetDeviceId();
+            if (devId == null)
+                return null;
+
+            using (var cli = new MainApiDeviceWebClient(devId))
             {
                 bool b = cli.DownloadData<bool>($"v1.0/users/presence/{userId}/forcelocation/3552050b-e59a-4cf6-b67c-5503d7c2ba40/out");
             }

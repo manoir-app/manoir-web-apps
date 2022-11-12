@@ -29,6 +29,12 @@ var Manoir;
                     .build();
                 this.connection.on("notifyMeshChange", this.onMeshChange);
                 this.connection.start().catch(err => console.error(err));
+                try {
+                    super.checkLogin(true);
+                }
+                catch (e) {
+                    document.location.reload(true);
+                }
             }
             onMeshChange(changeType, mesh) {
                 console.log(mesh);

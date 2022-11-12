@@ -71,7 +71,12 @@ module Manoir.SecurityApp {
             this.connection.on("notifyMeshChange", this.onMeshChange);
 
             this.connection.start().catch(err => console.error(err));
-
+            try {
+                super.checkLogin(true);
+            }
+            catch (e) {
+                (document.location as any).reload(true);
+            }
         }
 
         private onMeshChange(changeType: string, mesh: any) : void {
