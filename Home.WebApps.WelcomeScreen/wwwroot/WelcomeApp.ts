@@ -1,6 +1,8 @@
 ﻿///<reference path="typings/angular.d.ts" />
+///<reference path="typings/manoirApp.d.ts" />
 ///<reference path="typings/angular-sanitize.d.ts" />
 ///<reference path="typings/angular-animate.d.ts" />
+///<reference path="typings/signalr/index.d.ts" />
 
 module Manoir.WelcomeApp {
 
@@ -9,6 +11,7 @@ module Manoir.WelcomeApp {
     }
 
     export class DefaultPage extends Manoir.Common.ManoirAppPage {
+        connection: signalR.HubConnection;
         scope: IDefaultPageScope;
         $timeout: ng.ITimeoutService;
         http: any;
@@ -19,9 +22,31 @@ module Manoir.WelcomeApp {
             this.$timeout = $timeout;
             this.scope.Events = this;
             this.scope.Loading = true;
+            this.init();
             let self = this;
             this.RefreshData();
             setInterval(function () { self.RefreshData(); }, 5000);
+        }
+
+        private init() {
+
+            try {
+                super.checkLogin(true);
+            }
+            catch (e) {
+                (document.location as any).reload(true);
+            }
+
+            this.connection = new signalR.HubConnectionBuilder()
+                .withUrl("/hubs/1.0/appanddevices")
+                .withAutomaticReconnect()
+                .build();
+
+            this.connection.on("notifyMeshChange", this.onMeshChange);
+        }
+
+        private onMeshChange(changeType: string, mesh: any): void {
+            console.log(mesh);
         }
 
         public RefreshData(): void {
