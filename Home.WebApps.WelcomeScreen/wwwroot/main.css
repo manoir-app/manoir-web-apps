@@ -41,7 +41,7 @@ main {
     display: grid;
     grid-template-rows: repeat(16, 104px);
     grid-template-columns: repeat(10, 92px);
-    grid-gap:8px 8px;
+    grid-gap:16px;
 }
 
 .private main {
@@ -49,8 +49,7 @@ main {
 }
 
 .widget-container {
-    background:rgb(255, 255, 255, 0.05);
-    padding:8px;
+    padding:16px;
     border-radius:8px;
 }
 
@@ -58,3 +57,26 @@ header {
     height:unset!important;
     padding:2px 8px!important;
 }
+
+
+    header h1 strong {
+        font-weight: 100;
+        font-size: 100px;
+        line-height: 106px;
+    }
+
+
+        header h1 strong::before {
+            content: "\A";
+            white-space: pre-wrap;
+        }
+
+    header p.date strong {
+        font-size: 62px;
+        font-weight: 100;
+    }
+
+        header p.date strong::before {
+            content: "\A";
+            white-space: pre-wrap;
+        }
