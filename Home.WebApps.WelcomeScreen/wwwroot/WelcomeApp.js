@@ -32,13 +32,55 @@ var Manoir;
                     .withAutomaticReconnect()
                     .build();
                 this.connection.on("notifyMeshChange", this.onMeshChange);
+                this.connection.on("notifyUserChange", this.onMeshChange);
             }
             onMeshChange(changeType, mesh) {
-                console.log(mesh);
+                if (changeType == "privacyMode")
+                    this.refreshPresence(this.scope, this);
+            }
+            notifyUserChange(changeType, user) {
+                if (changeType == "presence")
+                    this.refreshPresence(this.scope, this);
             }
             RefreshData() {
                 let self = this;
                 let sc = self.scope;
+                this.refreshPresence(sc, self);
+            }
+            refreshPresence(sc, self) {
+                let url = "/app/security/api/presence?ts=" + (new Date).getTime();
+                fetch(url)
+                    .then(res => res.json())
+                    .then(json => {
+                    sc.currentPresence = json;
+                    self.updateUsersFromPresence(sc.allUsers, sc.currentPresence);
+                    sc.Loading = false;
+                    sc.$applyAsync(function () { });
+                });
+                url = "/app/security/api/users?ts=" + (new Date).getTime();
+                fetch(url)
+                    .then(res => res.json())
+                    .then(json => {
+                    sc.allUsers = json;
+                    self.updateUsersFromPresence(sc.allUsers, sc.currentPresence);
+                    sc.$applyAsync(function () { });
+                });
+            }
+            updateUsersFromPresence(users, pres) {
+                if (users == null || pres == null)
+                    return;
+                for (var i = 0; i < users.length; i++) {
+                    var found = false;
+                    for (var p = 0; p < pres.mainUsers.length; p++) {
+                        if (users[i].id == pres.mainUsers[p].userId)
+                            found = true;
+                    }
+                    for (var p = 0; p < pres.guests.length; p++) {
+                        if (users[i].id == pres.guests[p].userId)
+                            found = true;
+                    }
+                    users[i].alreadyPresent = found;
+                }
             }
         }
         WelcomeApp.DefaultPage = DefaultPage;
